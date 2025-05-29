@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  springapp:
+    build: .
+    ports:
+      - "8081:8084"            # Map host 8081 to container 8084 (make sure your app listens on 8084 inside)
+    volumes:
+      - ./logs:/app/logs       # Replace ./logs with your actual local path
+    restart: unless-stopped
