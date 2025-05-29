@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATH">logs</Property>
+        <Property name="LOG_FILE">${LOG_PATH}/app.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console Appender with level highlighting -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %highlight{%-5level} %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- Rolling File Appender (by date and size) -->
+        <RollingFile name="RollingFile" fileName="${LOG_FILE}"
+                     filePattern="${LOG_PATH}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+
+            <Policies>
+                <!-- Roll over daily and when file exceeds 10MB -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+
+            <DefaultRolloverStrategy max="30" fileIndex="min"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
